@@ -79,10 +79,11 @@ class BootOMetaGrammar(OMetaBase):
         Consume input until a non-whitespace character is reached.
         """
         consumingComment = False
+        e = None
         while True:
             try:
                 c, e = self.input.head()
-            except EOFError as e:
+            except EOFError:
                 break
             t = self.input.tail()
             if c.isspace() or consumingComment:

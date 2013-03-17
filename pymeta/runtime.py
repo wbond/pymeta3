@@ -21,6 +21,9 @@ class ParseError(Exception):
         if len(a) > 2:
             self.message = a[2]
 
+    def __getitem__(self, item):
+        return self.args[item]
+
     def __eq__(self, other):
         if other.__class__ == self.__class__:
             return (self.position, self.error) == (other.position, other.error)
@@ -91,7 +94,12 @@ def joinErrors(errors):
     """
     Return the error from the branch that matched the most of the input.
     """
-    errors.sort(reverse=True, key=operator.itemgetter(0))
+    def get_key(item):
+        val = item[0]
+        if val == None:
+            val = -1000000000
+        return val
+    errors.sort(reverse=True, key=get_key)
     results = set()
     pos = errors[0][0]
     for err in errors:
@@ -379,6 +387,7 @@ class OMetaBase(object):
         @param initial: Initial values to populate the returned list with.
         """
         ans = []
+        e = None
         for x, e in initial:
             ans.append(x)
         while True:
@@ -386,7 +395,7 @@ class OMetaBase(object):
                 m = self.input
                 v, _ = fn()
                 ans.append(v)
-            except ParseError as e:
+            except ParseError:
                 self.input = m
                 break
         return ans, e
