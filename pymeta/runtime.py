@@ -118,16 +118,20 @@ class character(str):
         """
         raise TypeError("Characters are not iterable")
 
-class unicodeCharacter(unicode):
-    """
-    Type to distinguish characters from Unicode strings.
-    """
-    def __iter__(self):
+try:
+    _has_unicode = True
+    class unicodeCharacter(unicode):
         """
-        Prevent string patterns and list patterns from matching single
-        characters.
+        Type to distinguish characters from Unicode strings.
         """
-        raise TypeError("Characters are not iterable")
+        def __iter__(self):
+            """
+            Prevent string patterns and list patterns from matching single
+            characters.
+            """
+            raise TypeError("Characters are not iterable")
+except NameError:
+    _has_unicode = False
 
 class InputStream(object):
     """
@@ -140,7 +144,7 @@ class InputStream(object):
         """
         if isinstance(iterable, str):
             data = [character(c) for c in iterable]
-        elif isinstance(iterable, unicode):
+        elif _has_unicode and isinstance(iterable, unicode):
             data = [unicodeCharacter(c) for c in iterable]
         else:
             data = list(iterable)
@@ -299,7 +303,7 @@ class OMetaBase(object):
         @param args: A sequence of arguments to it.
         """
         if args:
-            if rule.func_code.co_argcount - 1 != len(args):
+            if rule.__code__.co_argcount - 1 != len(args):
                 for arg in args[::-1]:
                     self.input = ArgInput(arg, self.input)
                 return rule()
@@ -382,7 +386,7 @@ class OMetaBase(object):
                 m = self.input
                 v, _ = fn()
                 ans.append(v)
-            except ParseError, e:
+            except ParseError as e:
                 self.input = m
                 break
         return ans, e
@@ -401,7 +405,7 @@ class OMetaBase(object):
                 ret, err = f()
                 errors.append(err)
                 return ret, joinErrors(errors)
-            except ParseError, e:
+            except ParseError as e:
                 errors.append(e)
                 self.input = m
         raise ParseError(*joinErrors(errors))
@@ -416,7 +420,7 @@ class OMetaBase(object):
         m = self.input
         try:
             fn()
-        except ParseError, e:
+        except ParseError as e:
             self.input = m
             return True, self.input.nullError()
         else:
@@ -429,7 +433,7 @@ class OMetaBase(object):
         while True:
             try:
                 c, e = self.input.head()
-            except EOFError, e:
+            except EOFError as e:
                 break
             t = self.input.tail()
             if c.isspace():
@@ -506,7 +510,7 @@ class OMetaBase(object):
             for c in tok:
                 v, e = self.exactly(c)
             return tok, e
-        except ParseError, e:
+        except ParseError as e:
             self.input = m
             
             raise ParseError(e[0], expected("token", tok))
@@ -567,7 +571,7 @@ class OMetaBase(object):
         while True:
             try:
                 c, e = self.rule_anything()
-            except ParseError, e:
+            except ParseError as e:
                 endchar = None
                 break
             if c in endChars and len(stack) == 0:
@@ -579,7 +583,7 @@ class OMetaBase(object):
                     stack.append(delimiters[c])
                 elif len(stack) > 0 and c == stack[-1]:
                     stack.pop()
-                elif c in delimiters.values():
+                elif c in list(delimiters.values()):
                     raise ParseError(self.input.position, expected("Python expression"))
                 elif c in "\"'":
                     while True:

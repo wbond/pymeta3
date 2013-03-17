@@ -82,7 +82,7 @@ class BootOMetaGrammar(OMetaBase):
         while True:
             try:
                 c, e = self.input.head()
-            except EOFError, e:
+            except EOFError as e:
                 break
             t = self.input.tail()
             if c.isspace() or consumingComment:

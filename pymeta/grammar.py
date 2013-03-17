@@ -4,9 +4,9 @@ Public interface to OMeta, as well as the grammars used to compile grammar
 definitions.
 """
 import string
-from builder import TreeBuilder, moduleFromGrammar
-from boot import BootOMetaGrammar
-from runtime import OMetaBase, ParseError, EOFError
+from .builder import TreeBuilder, moduleFromGrammar
+from .boot import BootOMetaGrammar
+from .runtime import OMetaBase, ParseError, EOFError
 
 class OMeta(OMetaBase):
     """
@@ -267,7 +267,7 @@ class OMetaGrammarMixin(object):
         while True:
             try:
                 c, e = self.input.head()
-            except EOFError, e:
+            except EOFError as e:
                 break
             t = self.input.tail()
             if c.isspace() or consumingComment:

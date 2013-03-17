@@ -29,7 +29,7 @@ def formatAttrs(attrs):
     """
     Format a dictionary as HTML-ish attributes.
     """
-    return ''.join([" %s='%s'" % (k, v) for (k, v) in attrs.iteritems()])
+    return ''.join([" %s='%s'" % (k, v) for (k, v) in attrs.items()])
 
 
 unparserGrammar = """

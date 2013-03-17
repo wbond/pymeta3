@@ -24,7 +24,7 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(parse('"foo bar"'), TermLiteral('.String.', "foo bar"))
         self.assertEqual(parse("'x'"), TermLiteral('.char', character('x')))
         self.assertEqual(parse("0xDECAFC0FFEEBAD"), TermLiteral('.int.', 0xDECAFC0FFEEBAD))
-        self.assertEqual(parse("0755"), TermLiteral('.int.', 0755))
+        self.assertEqual(parse("0755"), TermLiteral('.int.', 0o755))
         self.assertEqual(parse("3.14159E17"), TermLiteral('.float64.', 3.14159E17))
         self.assertEqual(parse("1e9"), TermLiteral('.float64.', 1e9))
         self.assertEqual(parse("0"), TermLiteral(".int.", 0))

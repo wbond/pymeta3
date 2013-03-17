@@ -152,9 +152,14 @@ def Term(functor, argList):
     return _Term(functor, argList)
 
 def numberType(n):
+    try:
+        int_types = (long, int)
+    except NameError:
+        int_types = (int,)
+        
     if isinstance(n, float):
         return ".float64."
-    elif isinstance(n, (long, int)):
+    elif isinstance(n, int_types):
         return ".int."
     raise ValueError("wtf")
 
@@ -200,6 +205,6 @@ def parseTerm(termString):
     
     try:
         return _parseTerm(termString)
-    except ParseError, e:
-        print e.formatError(termString)
+    except ParseError as e:
+        print(e.formatError(termString))
         raise
