@@ -8,8 +8,8 @@ setup(
     url="https://github.com/wbond/pymeta3",
     description="Pattern-matching language based on OMeta for Python 2 and 3",
     long_description=open('README').read(),
-    author="Allen Short, wbond",
-    author_email="washort42@gmail.com, will@wbond.net",
+    author="wbond",
+    author_email="will@wbond.net",
     license="MIT License",
     packages=["pymeta"]
     )
