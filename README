@@ -1,5 +1,5 @@
 ========
-PyMeta
+PyMeta3
 ========
 
 --------------------------------------------
@@ -9,9 +9,9 @@ A Pattern-Matching Language Based on Python
 Installation
 ============
 
-This is a custom fork of pymeta 0.5.0 that supports python 3. To install, execute:
+This is a fork of PyMeta 0.5.0 that supports Python 2 and 3. To install, execute:
 
-pip install git+git://github.com/wbond/pymeta.git
+pip install git+https://github.com/wbond/pymeta3.git
 
 
 Summary

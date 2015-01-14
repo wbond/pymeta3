@@ -3,13 +3,13 @@
 """Setup script for the PyMeta distribution."""
 from distutils.core import setup
 setup(
-    name="PyMeta",
+    name="PyMeta3",
     version="0.5.0",
-    url="http://launchpad.net/pymeta",
-    description="Pattern-matching language based on OMeta",
+    url="https://github.com/wbond/pymeta3",
+    description="Pattern-matching language based on OMeta for Python 2 and 3",
     long_description=open('README').read(),
-    author="Allen Short",
-    author_email="washort42@gmail.com",
+    author="Allen Short, wbond",
+    author_email="washort42@gmail.com, will@wbond.net",
     license="MIT License",
     packages=["pymeta"]
     )
